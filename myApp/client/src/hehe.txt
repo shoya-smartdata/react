@@ -1,0 +1,20 @@
+<header>
+  <span>MyApp</span>
+  <nav>
+    <li>
+      <button onClick={handleReg}>Regester /</button>
+    </li>
+    <li>
+    <button onClick={handleGetdata} >Get users /</button>
+    </li>
+
+    <li>
+      <input type='text' placeholder='search here'
+      
+      value={searchTerm} 
+      onChange={(e)=>setSearchTerm(e.target.value)}
+      /> <button onClick={handleSearch}><FaSearch /></button> 
+      <button onClick={handleCleardata}>CLEAR</button>
+    </li>
+  </nav>
+</header>

@@ -68,9 +68,11 @@ app.get('/api/users', (req, res) => {
 
 
 app.put('/api/update/:id', (req,res)=>{
-    const data = [req.body.name, req.body.email,req.body.phone, req.params.id];
+    const { name, email, phone, address } = req.body;
+    const id = req.params.id; 
+const data = [name, email, phone, address, id];
 
-    db.query('UPDATE employee SET name = ?, email = ?, phone = ? WHERE id = ?',data, (err, result, fields)=>{
+    db.query('UPDATE employee SET name = ?, email = ?, phone = ?, address = ? WHERE id = ?',data, (err, result, fields)=>{
    if(err) throw err;
    res.send(result);
     })
