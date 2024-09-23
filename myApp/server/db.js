@@ -5,7 +5,7 @@ let db = mysql.createConnection(
     {
     host: "localhost",
     user: "root",
-    password: "smart@2099",
+    password: "",
     database: "smartdata",
   
 })

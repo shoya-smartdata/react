@@ -3,86 +3,103 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-
-header{
+header {
   display: flex;
-  justify-content: space-evenly;
- align-items: center;
+  justify-content: space-between;
+  align-items: center;
   height: 70px;
-    background-color: purple;
-    
-    span{
-      font-weight: 800;
-      color: white;
-      font-size: 2rem;
-      
-    }
-  nav{
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-   align-items: center;
-    
-    li{
-      list-style: none;
+  background-color: #6a0dad;
+  padding: 0 20px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
 
-      button{
-        padding: 8px 12px;
-        border-radius: 8px;
-        border: 1px solid gold;
-        background-color: transparent;
-        margin-left: 6px;
-        color: white;
-        font-weight: 500;
-        font-family: sans-serif;
-        transition: .7s ease-in-out;
-        width: 8em;
-        
-      }
+}
 
-      input{
-        padding: 2px 5px;
-        border-radius: 4px;
-       
-        outline:  2px solid gold;
-        
-      }
-
-      button:hover{
-      
-      border: 2px solid voilet;
-       background-color: gold;
-       color: black;
-      }
-    
-    }
-  }
+nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+ 
+  gap: 20px; 
+  width: 100%;
   
+}
+
+span {
+  font-weight: 800;
+  color: white;
+  font-size: 2rem;
+}
+
+.custom-class {
+  display: flex;
+  align-items: center;
+ margin-bottom: 0px;
+
+  list-style: none;
+  padding: 0; 
+  margin: 0; 
+}
+
+li {
+  display: flex;
+  align-items: center;
+}
+
+button {
+  padding: 8px 12px; 
+  border-radius: 4px;
+  border: 2px solid transparent; 
+  background-color: transparent;
+  color: white;
+  font-weight: 500;
+  font-family: sans-serif;
+  transition: all 0.3s ease; 
+  margin-left: 8px; 
+}
+
+input {
+  padding: 6px;
+  border-radius: 4px;
+  border: 2px solid #ffcc00; 
+  outline: none; 
+  transition: border-color 0.3s ease; 
+}
+
+button:hover {
+  background-color: #ffcc00; 
+  border-radius: 4px;
+  color: #6a0dad; 
+  border: 2px solid #6a0dad; 
+}
+
+input:focus {
+  border-color: #ffcc00; 
+}
+
+button:focus {
+  outline: none;
 }
 
 
 .foot{
-  background-color: purple;
+  background-color: #6a0dad; 
   height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
-  position: fixed; 
-  width: 100%;
-  bottom: 0px;
 
- 
+  width: 100%;
+
 
 }
 
-.nopo{
-  margin-top: 180px;
-  };
+.hover:hover{
+  scale: 1.01;
+  box-shadow: 0px 3px;
+}
 
-  .hover{
-    scale: 1.01;
-    background-color: red;
-  }
-
+.mono-body{
+  height: max-content;
+  height: 600px
+}

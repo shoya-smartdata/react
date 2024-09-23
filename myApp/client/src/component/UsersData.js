@@ -1,5 +1,6 @@
 
-import { FaEdit } from "react-icons/fa";
+
+import { RiDeleteBin6Fill } from "react-icons/ri";
 function UsersData(props) {
 
   function handleUpdatebtn(){
@@ -21,7 +22,7 @@ function UsersData(props) {
       <th scope="col">Email</th>
       <th scope="col">Phone</th>
       <th scope="col">Address</th>
-      <th><FaEdit/></th>
+      <th><RiDeleteBin6Fill/></th>
     
     </tr>
   </thead>
@@ -35,7 +36,7 @@ function UsersData(props) {
                 <td>{item.email}</td>
                 <td>{item.phone}</td>
                 <td>{item.address}</td>
-                <button onClick={handleUpdatebtn} ><FaEdit/></button>
+                <button  className='btn bg-danger py-1 mt-1' onClick={handleUpdatebtn} ><RiDeleteBin6Fill/></button>
                
               </tr>
             );

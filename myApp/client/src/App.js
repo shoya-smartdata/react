@@ -1,23 +1,31 @@
 
 import { useState } from 'react';
 import './App.css';
-import RegesterForm from './component /RegesterForm';
-import UsersData from './component /UsersData';
+import RegesterForm from './component/RegesterForm';
+import UsersData from './component/UsersData';
 import axios from 'axios';
-import { FaSearch } from "react-icons/fa";
-import Footer from './component /Footer';
-import WelcomePage from './component /WelcomePage';
+import { FaEdit, FaSearch  } from "react-icons/fa";
+
+
+import Footer from './component/Footer';
+import WelcomePage from './component/WelcomePage';
+import UpdateValues from './component/updateValues'; 
+
+
 
 function App() {
 
   let [showForm , setshowForm] = useState(false);
   let [showTable, setShowTable] = useState(false)
-  let [welcome, setWelcome] = useState(true)
+  let [welcome, setWelcome] = useState(true);
+  let [updateUser, setUpdateUser] = useState(false);
+
  
  function handleReg(){
   setshowForm(true)
   setShowTable(false)
   setWelcome(false)
+  setUpdateUser(false)
   }
 
 let  [data, setData] = useState([])
@@ -37,6 +45,7 @@ const handleGetdata = async (event) => {
 
     setShowTable(true)
     setshowForm(false)
+    setUpdateUser(false)
 }
 
 
@@ -88,34 +97,54 @@ function handleCleardata(){
 }
 
 
+function handleUpdate(){
+ 
+   
+
+  setWelcome(false)
+  setUpdateUser(true)
+  setShowTable(false)
+  setshowForm(false)
+}
+
+
 
   return (
 <>
 <header>
-  <span>MyApp</span>
   <nav>
-    <li>
-      <button onClick={handleReg}>REGESTER !</button>
-    </li>
-    <li>
-    <button onClick={handleGetdata} >GET DATA</button>
-    </li>
-
-    <li>
-      <input type='text' placeholder='search here'
+    <span>MyApp</span>
+    <ul className='custom-class'>
+      <li>
+        <button onClick={handleGetdata}>Get Users</button>
+      </li>
+      <li>
+        <button onClick={handleReg}>Register</button>
+      </li>
       
-      value={searchTerm} 
-      onChange={(e)=>setSearchTerm(e.target.value)}
-      /> <button onClick={handleSearch}><FaSearch /></button> 
-      <button onClick={handleCleardata}>CLEAR</button>
-    </li>
+    </ul>
+    <ul className='custom-class'>
+    <li>
+        <input
+          type='text'
+          placeholder='Search here'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button onClick={handleSearch}>
+          <FaSearch />
+        </button>
+        <button className='bg-success my-0 p-1 rounded mx-1' onClick={handleCleardata}>Clear</button>
+        <button className='btn bg-danger' onClick={handleUpdate}>
+          <FaEdit />
+        </button>
+      </li>
+    </ul>
   </nav>
 </header>
 
 
-
-
-<section>
+<section className='mono-body'>
 {showForm && <RegesterForm/>}
 
 
@@ -123,9 +152,13 @@ function handleCleardata(){
 
 { welcome && <WelcomePage />}
 
+{updateUser && <UpdateValues/>} 
 </section>
 
+
+
  <Footer></Footer>
+
 </>
   );
 }
