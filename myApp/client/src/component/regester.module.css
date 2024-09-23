@@ -1,0 +1,11 @@
+.formstyle{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  
+  input{
+    padding: 4px 8px;
+  }
+}
