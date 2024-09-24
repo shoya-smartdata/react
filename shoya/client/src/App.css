@@ -1,0 +1,99 @@
+.custom-nav {
+    height: 70px;
+    background-color: #6a0dad;
+    transition: background-color 0.3s ease;
+
+    nav {
+        .nav-a {
+            color: white;
+            font-size: 1.5em;
+            font-weight: 700;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #ffeb3b; 
+            }
+        }
+
+        .a-custom {
+            color: white;
+            font-weight: 400;
+            font-size: 1.2em;
+            border-bottom: 1px solid transparent;
+            margin-right: 18px;
+            position: relative;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: #ffeb3b; 
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -5px;
+                height: 2px;
+                background-color: #ffeb3b; 
+                transform: scaleX(0);
+                transition: transform 0.3s ease;
+            }
+
+            &:hover::after {
+                transform: scaleX(1);
+            }
+        }
+    }
+}
+
+.btn {
+    transition: transform 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+
+.nav-link.active {
+    font-weight: bold;
+    color: #ffeb3b; 
+    border-bottom: 2px solid #ffeb3b; 
+}
+
+
+/* model box */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* above other content */
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    padding: 2px;
+    width: 50%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    position: relative; 
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
