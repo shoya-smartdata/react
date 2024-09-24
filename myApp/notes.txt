@@ -1,0 +1,58 @@
+import axios from 'axios';
+import React, { useState } from 'react';
+
+function Deleteuser() {
+    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
+
+    const handlesubmit = async (e) => {
+        e.preventDefault(); // Prevent the default form submission
+        const data = { 
+            id: id,
+            email: email
+        };
+
+        try {
+            const response = await axios.delete('http://localhost:4000/api/delete', { data });
+            console.log('Response:', response.data);
+            // Handle success, e.g., show a success message or redirect
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            // Handle error, e.g., show an error message
+        }
+    };
+
+    return (
+        <div className="d-flex justify-content-center align-items-center vh-100">
+            <form onSubmit={handlesubmit} className="bg-light p-3 rounded border shadow" style={{ width: '300px' }}>
+                <h4 className="text-center mb-3">Delete Account</h4>
+                
+                <div className="mb-3">
+                    <label className="form-label">ID</label>
+                    <input 
+                        type="number" 
+                        className="form-control form-control-sm" 
+                        placeholder="ID" 
+                        value={id} 
+                        onChange={(e) => setId(e.target.value)} 
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <input 
+                        type="email" 
+                        className="form-control form-control-sm" 
+                        placeholder="Email" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
+                    />
+                </div>
+
+                <button type="submit" className="btn btn-danger btn-sm w-100">Delete!</button>
+            </form>
+        </div>
+    );
+}
+
+export default Deleteuser;

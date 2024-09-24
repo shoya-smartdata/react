@@ -1,0 +1,73 @@
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+   
+    justify-content: center;
+    display: flex;
+  list-style: none;
+  padding: 0;
+
+  justify-content: center;
+  /* position: fixed; 
+  bottom: 40px;   
+  top: 81%;
+  left: 50%;       */
+  /* transform: translateX(-50%);  */
+  padding: 4px; 
+  transition: 2s ease-in-out;
+  z-index: 1000; 
+ 
+  }
+  
+  .pagination li {
+    margin: 0 5px;
+  }
+  
+  .pagination li a {
+    text-decoration: none;
+    padding: 6px 8px;
+    border: 1px solid #007bff; 
+    color: #007bff; 
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s; 
+  }
+  
+  .pagination li a:hover {
+    background-color: #007bff;
+    color: white; 
+  }
+  
+  .pagination li.active a {
+    background-color: #007bff; 
+    color: white;
+    border: 1px solid #0056b3;
+  }
+  
+  .pagination li.disabled a {
+    color: #ccc; 
+    border: 1px solid #ccc; 
+    cursor: not-allowed; 
+  }
+
+
+  .table {
+    transition: background-color 0.3s;
+  }
+  
+  .evenRow:hover {
+    background-color: #f1f1f1; 
+    transform: scale(1.02); 
+    transition: transform 0.3s; 
+  }
+  
+  .oddRow:hover {
+    background-color: #f1f1f1; 
+    transform: scale(1.01); 
+    transition: transform 0.3s; 
+  }
+  
+  .deleteButton {
+    transition: transform 0.2s;
+  }
+ 

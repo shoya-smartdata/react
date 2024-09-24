@@ -8,6 +8,7 @@ let db = mysql.createConnection(
     password: "smart@2099",
     database: "smartdata",
   
+    
 })
 
 db.connect(err => {

@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/getdata', (req, res) => {
-    db.query('SELECT * FROM employee', (err, results) => {
+    db.query('SELECT * FROM emp', (err, results) => {
         if (err) {
             console.error("Query failed:", err);
             return res.status(500).send("Error querying the database.");
@@ -32,7 +32,7 @@ app.post('/addData', (req, res, next)=>{
 
     const parsedId = parseInt(id);
 
-    const query = `INSERT INTO employee (id, name, email, phone, address) VALUES (${parsedId}, '${name}', '${email}', '${phone}', '${address}')`;
+    const query = `INSERT INTO emp (id, name, email, phone, address) VALUES (${parsedId}, '${name}', '${email}', '${phone}', '${address}')`;
     console.log(id, name, email, phone, address);
     
        
@@ -51,7 +51,7 @@ app.post('/addData', (req, res, next)=>{
 app.get('/api/users', (req, res) => {
     const searchTerm = req.query.searchTerm || '';
     const sql = `
-        SELECT * FROM employee 
+        SELECT * FROM emp 
         WHERE id LIKE ? OR name LIKE ? OR email LIKE ? OR phone LIKE ? OR address LIKE ?
     `;
     const queryParams = [`%${searchTerm}%`, `%${searchTerm}%`, `%${searchTerm}%`, `%${searchTerm}%`, `%${searchTerm}%`];
@@ -68,9 +68,11 @@ app.get('/api/users', (req, res) => {
 
 
 app.put('/api/update/:id', (req,res)=>{
-    const data = [req.body.name, req.body.email,req.body.phone, req.params.id];
+    const { name, email, phone, address } = req.body;
+    const id = req.params.id; 
+const data = [name, email, phone, address, id];
 
-    db.query('UPDATE employee SET name = ?, email = ?, phone = ? WHERE id = ?',data, (err, result, fields)=>{
+    db.query('UPDATE emp SET name = ?, email = ?, phone = ?, address = ? WHERE id = ?',data, (err, result, fields)=>{
    if(err) throw err;
    res.send(result);
     })
@@ -79,6 +81,32 @@ app.put('/api/update/:id', (req,res)=>{
 })
 
 
+//delete entries 
+
+app.delete('/api/delete', (req, res) => {
+    const { id, email } = req.body;
+
+    if (!id || !email) {
+        return res.status(400).send({ message: 'ID and email are required' });
+    }
+
+    const data = [id, email];
+
+    db.query(`DELETE FROM emp WHERE id = ? AND email = ?`, data, (err, result) => {
+        if (err) {
+           
+            console.error('Database error:', err);
+            return res.status(500).send({ message: 'Database error', error: err });
+        }
+
+       
+        if (result.affectedRows === 0) {
+            return res.status(404).send({ message: 'Employee not found' });
+        }
+
+        res.send({ message: 'Employee deleted successfully' });
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running successfully on port ${PORT}!`);
