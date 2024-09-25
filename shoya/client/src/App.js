@@ -1,43 +1,76 @@
+
+
+
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddUserForm from './components/Adduser/AddUserForm';
 import Usertable from './components/Table/Usertable';
 import Deleteuser from './components/Delete/Deleteuser';
 import Updateuser from './components/Update/Updateuser';
-
+import axios from 'axios';
+import { toast } from 'react-toastify'; 
 function App() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isModalOpenDelete, setModalOpenDelete] = useState(false);
   const [isModalOpenUpdate, setModalOpenUpdate] = useState(false);
-  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]); 
+  const [userToDelete, setUserToDelete] = useState(null); 
+  useEffect(() => {
+    handleGetData(); 
+  }, []);
 
-// function for add user from box open as model 
+ 
+  const handleGetData = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/api/users");
+      setData(response.data);
+    } catch (error) {
+      toast.error("Error fetching user data");
+    }
+  };
 
   const handleAddUserClick = () => {
     setModalOpen(true);
   };
 
-// secnd for delete box 
-
-const handleDeleteUserClick = ()=>{
-  setModalOpen(false)
-  setModalOpenDelete(true);
-  setModalOpenUpdate(false)
-}
-
-// 3 for open update box. . . 
- const handleUpdateModle = ()=>{
-  setModalOpenUpdate(true)
-  setModalOpen(false)
-  setModalOpenDelete(false);
- }
+  const handleDeleteUserClick = (user) => {
+    setUserToDelete(user);
+    setModalOpenDelete(true);
+  };
 
   const closeModal = () => {
     setModalOpen(false);
     setModalOpenDelete(false);
-    setModalOpenUpdate(false)
-   
+    setModalOpenUpdate(false);
+    setUserToDelete(null); 
   };
+
+  // const handleSearchChange = (e) => {
+  //   setSearchTerm(e.target.value);
+  // };
+
+  const handleSearch = async (e) => {
+    console.log(" iam clicked ");
+    
+    e.preventDefault();
+    if (searchTerm) {
+        try {
+            const url = `http://localhost:4000/api/users?searchTerm=${searchTerm}`;
+            const response = await axios.get(url);
+            if (response.data) {
+                setData(response.data);
+            } else {
+                setData([{ id: "", name: "User not found!", email: "----" }]);
+                toast.error("User not found!");
+            }
+        } catch (error) {
+            toast.error("Error fetching search results");
+        }
+    } else {
+        handleGetData();
+    }
+};
 
   return (
     <>
@@ -66,46 +99,46 @@ const handleDeleteUserClick = ()=>{
                 </button>
               </li>
             </ul>
-            <form className="form-inline my-2 my-lg-0 d-flex align-items-center">
+            <form className="form-inline my-2 my-lg-0 d-flex align-items-center" >
               <input
                 className="form-control mr-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
+                value={searchTerm}
+                onChange={setSearchTerm((e)=>(e.target.value))} 
               />
-              <button className="btn btn-success mx-1" type="submit">Search</button>
-              <button className="btn btn-warning mx-2" type="button">Clear</button>
-              <button className="btn btn-info mx-2" type="button"
-              
-              onClick={handleUpdateModle}
-              >Edit</button>
-              <button className="btn btn-danger" type="button"
-              onClick={handleDeleteUserClick}
-              >Delete</button>
+              <button className="btn btn-success mx-1" 
+              onClick={handleSearch}
+              >Search</button>
+              <button className="btn btn-warning mx-2" type="button" onClick={() => { setSearchTerm(''); handleSearch(); }}>
+                Clear
+              </button>
             </form>
           </div>
         </nav>
       </header>
 
       <section>
-        <Usertable />
+        <Usertable data={data} deleteBtm={handleDeleteUserClick} />
+        
         {isModalOpen && (
-  <div className="modal-overlay" onClick={closeModal} aria-hidden={!isModalOpen}>
-    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-      <button className="close-button" onClick={closeModal} aria-label="Close modal">✖</button>
-      <AddUserForm />
-    </div>
-  </div>
-)}
-          {isModalOpenDelete && (
-          <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-overlay" onClick={closeModal} aria-hidden={!isModalOpen}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <button className="close-button" onClick={closeModal}>✖</button>
-              <Deleteuser />
+              <button className="close-button" onClick={closeModal} aria-label="Close modal">✖</button>
+              <AddUserForm />
             </div>
           </div>
         )}
-         {isModalOpenUpdate && (
+        {isModalOpenDelete && (
+          <div className="modal-overlay" onClick={closeModal}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <button className="close-button" onClick={closeModal}>✖</button>
+              <Deleteuser user={userToDelete} closeModal={closeModal} refreshData={handleGetData} />
+            </div>
+          </div>
+        )}
+        {isModalOpenUpdate && (
           <div className="modal-overlay" onClick={closeModal}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <button className="close-button" onClick={closeModal}>✖</button>

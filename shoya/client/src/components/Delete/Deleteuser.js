@@ -1,36 +1,43 @@
-// src/FormComponent.js
+// src/Deleteuser.js
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './deleteUSer.module.css'
+import styles from '../Delete/deleteUSer.module.css';
+import axios from 'axios';
 
-const Deleteuser = () => {
-    const [id, setId] = useState('');
+const Deleteuser = ({ user, deleteSuccess, closeModal }) => {
     const [email, setEmail] = useState('');
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        if (user) {
+            setEmail(user.email);
+        }
+    }, [user]);
+
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        // Handle form submission
-        console.log('ID:', id);
-        console.log('Email:', email);
+
+        const data = {
+            id: user.id,
+            email: email
+        }
+
+        try {
+            const response = await axios.delete('http://localhost:4000/api/deleteuser', { data });
+            console.log("Response:", response.data);
+            deleteSuccess(user.id);
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
     };
+
+    if (!user) return null;
 
     return (
         <div className={styles.formcontainer}>
-            <h2 className={styles.formtitle}>Sign Up</h2>
+            <h2 className={styles.formtitle}>Delete User</h2>
             <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="idInput" className="form-label">ID</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="idInput"
-                        value={id}
-                        onChange={(e) => setId(e.target.value)}
-                        placeholder="Enter your ID"
-                        required
-                    />
-                </div>
+                <p>Are you sure you want to delete {user.name}?</p>
                 <div className="mb-3">
                     <label htmlFor="emailInput" className="form-label">Email</label>
                     <input
@@ -38,12 +45,11 @@ const Deleteuser = () => {
                         className="form-control"
                         id="emailInput"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter your email"
-                        required
+                        readOnly
                     />
                 </div>
-                <button type="submit" className="btn btn-primary w-100">Submit</button>
+                <button type="submit" className="btn btn-danger w-100">Delete</button>
+                <button type="button" className="btn btn-secondary w-100 mt-2" onClick={closeModal}>Cancel</button>
             </form>
         </div>
     );

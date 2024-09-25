@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Adduser.module.css'; 
+import axio from 'axios'
 
 function AddUserForm() {
   const [userData, setUserData] = useState({
@@ -18,34 +19,40 @@ function AddUserForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+
+  const handleAddUsers = async(e)=>{
     e.preventDefault();
-    console.log('User Data Submitted:', userData);
+const data ={
+ 
+  name: userData.name,
+  email: userData.email,
+  phone: userData.phoneNo,
+  address : userData.phoneNo
+}
+
+  try {
+    const response = await axio.post('http://localhost:4000/api/adduser', data);
+  console.log("user added successfully !", response.data.name);
+  setUserData({
     
-    setUserData({
-      id: '',
-      name: '',
-      email: '',
-      phoneNo: '',
-      address: '',
-    });
-  };
+    name: '',
+    email: '',
+    phoneNo: '',
+    address: '',
+  });
+
+  } catch (error) {
+    console.log("error occured", error);
+    
+  }
+
+  }
 
   return (
     <div className={styles.formContainer}>
       <h2>Add User</h2>
-      <form onSubmit={handleSubmit}>
-        <div className={styles.formGroup}>
-          <label htmlFor="id">ID:</label>
-          <input
-            type="text"
-            id="id"
-            name="id"
-            value={userData.id}
-            onChange={handleChange}
-            required
-          />
-        </div>
+      <form onSubmit={handleAddUsers}>
+       
         <div className={styles.formGroup}>
           <label htmlFor="name">Name:</label>
           <input
