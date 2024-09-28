@@ -1,0 +1,16 @@
+
+.table {
+    margin: 0 auto;
+}
+
+.table th, .table td {
+    vertical-align: middle; 
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.table th {
+    font-weight: bold; 
+}
